@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zuccaro Café - Costa Rican Coffee Excellence</title>
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --coffee-dark: #3E2723;
+            --coffee-medium: #5D4037;
+            --coffee-light: #8D6E63;
+            --cream: #F5F5DC;
+            --cream-light: #FFF8E1;
+            --gold: #D4AF37;
+            --gold-dark: #B8860B;
+            --text-dark: #2C1810;
+            --text-light: #F5F5DC;
+            --white: #FFFFFF;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            color: var(--text-dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-weight: 400;
+            letter-spacing: 2px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(62, 39, 35, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        nav .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .language-switcher {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .language-switcher button {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--text-light);
+            padding: 0.4rem 0.8rem;
+            cursor: pointer;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .language-switcher button:hover {
+            background: var(--gold);
+            color: var(--coffee-dark);
+        }
+
+        .language-switcher button.active {
+            background: var(--gold);
+            color: var(--coffee-dark);
+        }
+
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        nav a:hover {
+            color: var(--gold);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(62, 39, 35, 0.4), rgba(62, 39, 35, 0.6)),
+                        url('cafe_zuccaro/2025-10-25_18-18-47_UTC_1.jpg') center/cover no-repeat;
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--text-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Disable fixed background on mobile for better performance */
+        @media (max-width: 768px) {
+            .hero {
+                background-attachment: scroll;
+            }
+        }
+
+        .hero-content {
+            animation: fadeInUp 1s ease-out;
+            position: relative;
+            padding: 2rem 3rem;
+            display: inline-block;
+        }
+
+        .hero-content::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
+            backdrop-filter: blur(2px);
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0.7;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+            letter-spacing: 4px;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            letter-spacing: 3px;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator::before {
+            content: '↓';
+            font-size: 2rem;
+            color: var(--gold);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 4rem;
+            color: var(--coffee-dark);
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 2px;
+            background: var(--gold);
+        }
+
+        /* About Section */
+        .about {
+            background: linear-gradient(to bottom, var(--white), var(--cream-light));
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: var(--coffee-medium);
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        .about-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Gallery Section */
+        .gallery {
+            background: var(--coffee-dark);
+            color: var(--text-light);
+        }
+
+        .gallery .section-title {
+            color: var(--text-light);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            cursor: pointer;
+            aspect-ratio: 4/3;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover::after {
+            opacity: 1;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+
+        .lightbox-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: var(--white);
+            font-size: 3rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .lightbox-close:hover {
+            color: var(--gold);
+        }
+
+        /* Menu Section */
+        .menu {
+            background: linear-gradient(to bottom, var(--cream-light), var(--white));
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .menu-category {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            border-top: 4px solid var(--gold);
+        }
+
+        .menu-category:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .menu-category h3 {
+            font-size: 2rem;
+            color: var(--coffee-dark);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--gold);
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        .menu-item {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(62, 39, 35, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .menu-item:hover {
+            padding-left: 0.5rem;
+        }
+
+        .menu-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+            gap: 1rem;
+        }
+
+        .menu-item-name {
+            font-weight: 600;
+            color: var(--coffee-dark);
+            font-size: 1.1rem;
+            flex: 1;
+            letter-spacing: 0.5px;
+        }
+
+        .menu-item-price {
+            color: var(--gold-dark);
+            font-weight: 700;
+            font-size: 1.1rem;
+            white-space: nowrap;
+            letter-spacing: 0.5px;
+        }
+
+        .menu-item-description {
+            font-size: 0.9rem;
+            color: var(--coffee-light);
+            margin-bottom: 0.5rem;
+            margin-top: 0.3rem;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        .menu-item-size {
+            font-size: 0.85rem;
+            color: var(--coffee-light);
+            margin-top: 0.3rem;
+            display: inline-block;
+            background: rgba(141, 110, 99, 0.1);
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+        }
+
+        .menu-subsection {
+            margin-bottom: 2.5rem;
+            padding-top: 1.5rem;
+        }
+
+        .menu-subsection:first-child {
+            padding-top: 0;
+        }
+
+        .menu-subsection:last-child {
+            margin-bottom: 0;
+        }
+
+        .menu-subsection-title {
+            font-size: 1.3rem;
+            color: var(--coffee-medium);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .menu-subsection-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 20px;
+            background: var(--gold);
+        }
+
+        /* Contact Section */
+        .contact {
+            background: var(--coffee-medium);
+            color: var(--text-light);
+        }
+
+        .contact .section-title {
+            color: var(--text-light);
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-info {
+            font-size: 1.1rem;
+        }
+
+        .contact-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--gold);
+        }
+
+        .contact-info p {
+            margin-bottom: 1rem;
+            line-height: 1.9;
+        }
+
+        .contact-info a {
+            color: var(--gold);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-info a:hover {
+            color: var(--gold-dark);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            color: var(--gold);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 0.8rem;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .btn-submit {
+            padding: 1rem 2rem;
+            background: var(--gold);
+            color: var(--coffee-dark);
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+            letter-spacing: 1px;
+        }
+
+        .btn-submit:hover {
+            background: var(--gold-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--coffee-dark);
+            color: var(--text-light);
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .about-content,
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            nav ul {
+                gap: 1.5rem;
+            }
+
+            nav .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero h1 {
+                font-size: 2.5rem;
+                letter-spacing: 2px;
+            }
+
+            .hero p {
+                font-size: 1rem;
+                letter-spacing: 1px;
+            }
+
+            section {
+                padding: 4rem 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            nav ul {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .menu-category {
+                padding: 1.5rem;
+            }
+
+            .menu-category h3 {
+                font-size: 1.6rem;
+            }
+
+            .menu-item {
+                margin-bottom: 1.5rem;
+                padding-bottom: 1.5rem;
+            }
+
+            .menu-item-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .menu-item-price {
+                align-self: flex-start;
+                margin-top: 0.3rem;
+            }
+
+            .menu-item-description {
+                font-size: 0.85rem;
+                margin-top: 0.5rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .menu-item-size {
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <ul>
+                <li><a href="#hero" data-en="Home" data-es="Inicio">Home</a></li>
+                <li><a href="#about" data-en="About" data-es="Nosotros">About</a></li>
+                <li><a href="#gallery" data-en="Gallery" data-es="Galería">Gallery</a></li>
+                <li><a href="#menu" data-en="Menu" data-es="Menú">Menu</a></li>
+                <li><a href="#contact" data-en="Contact" data-es="Contacto">Contact</a></li>
+            </ul>
+            <div class="language-switcher">
+                <button onclick="switchLanguage('en')" class="active" id="lang-en">EN</button>
+                <button onclick="switchLanguage('es')" id="lang-es">ES</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="hero-content" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+            <h1>Zuccaro Café</h1>
+            <p data-en="Costa Rican Coffee Excellence" data-es="Excelencia en Café Costarricense">Costa Rican Coffee Excellence</p>
+        </div>
+        <div class="scroll-indicator" data-aos="fade-in" data-aos-delay="1200"></div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <h2 class="section-title" data-aos="fade-up" data-aos-once="true" data-en="Our Story" data-es="Nuestra Historia">Our Story</h2>
+        <div class="about-content">
+            <div class="about-text" data-aos="fade-right" data-aos-once="true">
+                <p data-en="Welcome to Zuccaro Café, where every cup tells a story of excellence and passion. Nestled in the heart of Costa Rica, we celebrate the rich tradition of specialty coffee that has made our country renowned worldwide." data-es="Bienvenido a Zuccaro Café, donde cada taza cuenta una historia de excelencia y pasión. Ubicado en el corazón de Costa Rica, celebramos la rica tradición del café de especialidad que ha hecho famoso a nuestro país en todo el mundo.">
+                    Welcome to Zuccaro Café, where every cup tells a story of excellence and passion. 
+                    Nestled in the heart of Costa Rica, we celebrate the rich tradition of specialty coffee 
+                    that has made our country renowned worldwide.
+                </p>
+                <p data-en="We are proud participants in the Taza de la Excelencia Costa Rica, showcasing award-winning coffees from the finest producers. Our commitment to quality extends from the careful selection of beans to the artful preparation of each beverage." data-es="Somos orgullosos participantes de la Taza de la Excelencia Costa Rica, mostrando cafés galardonados de los mejores productores. Nuestro compromiso con la calidad se extiende desde la cuidadosa selección de granos hasta la preparación artística de cada bebida.">
+                    We are proud participants in the Taza de la Excelencia Costa Rica, showcasing award-winning 
+                    coffees from the finest producers. Our commitment to quality extends from the careful selection 
+                    of beans to the artful preparation of each beverage.
+                </p>
+                <p data-en="At Zuccaro Café, we believe that coffee is more than a drink—it's an experience, a moment of connection, and a celebration of Costa Rican excellence. Join us in discovering the stories behind each cup." data-es="En Zuccaro Café, creemos que el café es más que una bebida: es una experiencia, un momento de conexión y una celebración de la excelencia costarricense. Únete a nosotros para descubrir las historias detrás de cada taza.">
+                    At Zuccaro Café, we believe that coffee is more than a drink—it's an experience, a moment of 
+                    connection, and a celebration of Costa Rican excellence. Join us in discovering the stories 
+                    behind each cup.
+                </p>
+            </div>
+            <img src="cafe_zuccaro/2025-10-25_18-18-47_UTC_3.jpg" alt="Zuccaro Café interior" class="about-image" data-aos="fade-left" data-aos-once="true">
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery">
+        <h2 class="section-title" data-aos="fade-up" data-aos-once="true" data-en="Gallery" data-es="Galería">Gallery</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item" data-aos="zoom-in" data-aos-once="true" data-aos-delay="100" onclick="openLightbox('cafe_zuccaro/2025-10-25_18-18-47_UTC_5.jpg')">
+                <img src="cafe_zuccaro/2025-10-25_18-18-47_UTC_5.jpg" alt="Cafe gallery image 1">
+            </div>
+            <div class="gallery-item" data-aos="zoom-in" data-aos-once="true" data-aos-delay="200" onclick="openLightbox('cafe_zuccaro/2025-07-15_19-44-26_UTC_1.jpg')">
+                <img src="cafe_zuccaro/2025-07-15_19-44-26_UTC_1.jpg" alt="Cafe gallery image 2">
+            </div>
+            <div class="gallery-item" data-aos="zoom-in" data-aos-once="true" data-aos-delay="300" onclick="openLightbox('cafe_zuccaro/2025-06-25_17-05-46_UTC_1.jpg')">
+                <img src="cafe_zuccaro/2025-06-25_17-05-46_UTC_1.jpg" alt="Cafe gallery image 3">
+            </div>
+            <div class="gallery-item" data-aos="zoom-in" data-aos-once="true" data-aos-delay="400" onclick="openLightbox('cafe_zuccaro/2025-05-25_18-59-30_UTC_1.jpg')">
+                <img src="cafe_zuccaro/2025-05-25_18-59-30_UTC_1.jpg" alt="Cafe gallery image 4">
+            </div>
+            <div class="gallery-item" data-aos="zoom-in" data-aos-once="true" data-aos-delay="500" onclick="openLightbox('cafe_zuccaro/2025-10-25_18-18-47_UTC_2.jpg')">
+                <img src="cafe_zuccaro/2025-10-25_18-18-47_UTC_2.jpg" alt="Cafe gallery image 5">
+            </div>
+            <div class="gallery-item" data-aos="zoom-in" data-aos-once="true" data-aos-delay="600" onclick="openLightbox('cafe_zuccaro/2025-10-25_18-18-47_UTC_4.jpg')">
+                <img src="cafe_zuccaro/2025-10-25_18-18-47_UTC_4.jpg" alt="Cafe gallery image 6">
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
+        <span class="lightbox-close" onclick="closeLightbox(event)">&times;</span>
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="Gallery image">
+        </div>
+    </div>
+
+    <!-- Menu Section -->
+    <section id="menu" class="menu">
+        <h2 class="section-title" data-aos="fade-up" data-aos-once="true" data-en="Our Menu" data-es="Nuestro Menú">Our Menu</h2>
+        <div class="menu-grid">
+            <div class="menu-category" data-aos="fade-right" data-aos-once="true" data-aos-delay="100">
+                <h3 data-en="Coffee" data-es="Café">Coffee</h3>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Espresso</div>
+                        <div class="menu-item-price">₡1,800 / ₡2,000</div>
+                    </div>
+                    <div class="menu-item-description" data-en="Intense, concentrated shot of our premium Costa Rican coffee" data-es="Intenso, concentrado trago de nuestro café costarricense premium">Intense, concentrated shot of our premium Costa Rican coffee</div>
+                    <div class="menu-item-size">1oz / 2oz</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Doppio</div>
+                        <div class="menu-item-price">₡2,000</div>
+                    </div>
+                    <div class="menu-item-description" data-en="Double shot of espresso for extra strength" data-es="Doble trago de espresso para mayor intensidad">Double shot of espresso for extra strength</div>
+                    <div class="menu-item-size">2oz</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Macchiato</div>
+                        <div class="menu-item-price">₡2,000</div>
+                    </div>
+                    <div class="menu-item-description" data-en="Espresso marked with a dollop of steamed milk" data-es="Espresso marcado con una porción de leche al vapor">Espresso marked with a dollop of steamed milk</div>
+                    <div class="menu-item-size">3oz</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Cortado</div>
+                        <div class="menu-item-price">₡1,800</div>
+                    </div>
+                    <div class="menu-item-description" data-en="Espresso cut with warm milk, smooth and balanced" data-es="Espresso cortado con leche tibia, suave y equilibrado">Espresso cut with warm milk, smooth and balanced</div>
+                    <div class="menu-item-size">10oz</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Americano</div>
+                        <div class="menu-item-price">₡2,000</div>
+                    </div>
+                    <div class="menu-item-description" data-en="Espresso with hot water, rich and full-bodied" data-es="Espresso con agua caliente, rico y con cuerpo">Espresso with hot water, rich and full-bodied</div>
+                    <div class="menu-item-size">12oz</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name" data-en="Americano with Milk" data-es="Americano con Leche">Americano with Milk</div>
+                        <div class="menu-item-price">₡2,000</div>
+                    </div>
+                    <div class="menu-item-description" data-en="Americano with a touch of steamed milk" data-es="Americano con un toque de leche al vapor">Americano with a touch of steamed milk</div>
+                    <div class="menu-item-size">12oz</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Cappuccino</div>
+                        <div class="menu-item-price">₡2,200 / ₡2,500</div>
+                    </div>
+                    <div class="menu-item-description" data-en="Espresso with steamed milk and velvety foam" data-es="Espresso con leche al vapor y espuma aterciopelada">Espresso with steamed milk and velvety foam</div>
+                    <div class="menu-item-size">6oz / 8oz</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Flat White</div>
+                        <div class="menu-item-price">₡2,400</div>
+                    </div>
+                    <div class="menu-item-description" data-en="Double espresso with microfoam, creamy and smooth" data-es="Doble espresso con microespuma, cremoso y suave">Double espresso with microfoam, creamy and smooth</div>
+                    <div class="menu-item-size">6oz</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Latte</div>
+                        <div class="menu-item-price">₡2,200 / ₡2,500</div>
+                    </div>
+                    <div class="menu-item-description" data-en="Espresso with steamed milk, smooth and comforting" data-es="Espresso con leche al vapor, suave y reconfortante">Espresso with steamed milk, smooth and comforting</div>
+                    <div class="menu-item-size">8oz / 12oz</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Latte Macchiato</div>
+                        <div class="menu-item-price">₡2,200</div>
+                    </div>
+                    <div class="menu-item-description" data-en="Steamed milk marked with espresso, layered and elegant" data-es="Leche al vapor marcada con espresso, en capas y elegante">Steamed milk marked with espresso, layered and elegant</div>
+                    <div class="menu-item-size">8oz</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Mocha</div>
+                        <div class="menu-item-price">₡2,500 / ₡2,800</div>
+                    </div>
+                    <div class="menu-item-description" data-en="Espresso with chocolate and steamed milk, rich and indulgent" data-es="Espresso con chocolate y leche al vapor, rico e indulgente">Espresso with chocolate and steamed milk, rich and indulgent</div>
+                    <div class="menu-item-size">8oz / 12oz</div>
+                </div>
+            </div>
+            <div class="menu-category" data-aos="fade-left" data-aos-once="true" data-aos-delay="200">
+                <h3 data-en="Not Coffee" data-es="Sin Café">Not Coffee</h3>
+                <div class="menu-subsection">
+                    <div class="menu-subsection-title" data-en="Hot Drinks" data-es="Bebidas Calientes">Hot Drinks</div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name" data-en="Hot Chocolate" data-es="Chocolate Caliente">Hot Chocolate</div>
+                            <div class="menu-item-price">₡2,500</div>
+                        </div>
+                        <div class="menu-item-description" data-en="Rich, creamy chocolate made with premium cocoa" data-es="Chocolate rico y cremoso hecho con cacao premium">Rich, creamy chocolate made with premium cocoa</div>
+                        <div class="menu-item-size">10oz</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name" data-en="Sweet Cocoa" data-es="Cacao Dulce">Sweet Cocoa</div>
+                            <div class="menu-item-price">₡1,500</div>
+                        </div>
+                        <div class="menu-item-description" data-en="Traditional Costa Rican sweet cocoa, warm and comforting" data-es="Cacao dulce costarricense tradicional, cálido y reconfortante">Traditional Costa Rican sweet cocoa, warm and comforting</div>
+                        <div class="menu-item-size">10oz</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name" data-en="Tea" data-es="Té">Tea</div>
+                            <div class="menu-item-price">₡1,500</div>
+                        </div>
+                        <div class="menu-item-description" data-en="Selection of premium teas, served hot" data-es="Selección de tés premium, servidos calientes">Selection of premium teas, served hot</div>
+                        <div class="menu-item-size">10oz</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name">Chai Latte</div>
+                            <div class="menu-item-price">₡2,500</div>
+                        </div>
+                        <div class="menu-item-description" data-en="Spiced tea with steamed milk, aromatic and warming" data-es="Té especiado con leche al vapor, aromático y reconfortante">Spiced tea with steamed milk, aromatic and warming</div>
+                        <div class="menu-item-size">10oz</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name">Matcha Latte</div>
+                            <div class="menu-item-price">₡2,500</div>
+                        </div>
+                        <div class="menu-item-description" data-en="Premium matcha green tea with steamed milk, smooth and earthy" data-es="Té verde matcha premium con leche al vapor, suave y terroso">Premium matcha green tea with steamed milk, smooth and earthy</div>
+                        <div class="menu-item-size">10oz</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name" data-en="Golden Milk" data-es="Leche Dorada">Golden Milk</div>
+                            <div class="menu-item-price">₡2,500</div>
+                        </div>
+                        <div class="menu-item-description" data-en="Turmeric and spices with warm milk, soothing and healthy" data-es="Cúrcuma y especias con leche tibia, relajante y saludable">Turmeric and spices with warm milk, soothing and healthy</div>
+                        <div class="menu-item-size">10oz</div>
+                    </div>
+                </div>
+                <div class="menu-subsection">
+                    <div class="menu-subsection-title" data-en="Cold Drinks" data-es="Bebidas Frías">Cold Drinks</div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name" data-en="Iced Matcha Latte" data-es="Matcha Latte Helado">Iced Matcha Latte</div>
+                            <div class="menu-item-price">₡3,000</div>
+                        </div>
+                        <div class="menu-item-description" data-en="Refreshing matcha green tea with cold milk, perfect for warm days" data-es="Té verde matcha refrescante con leche fría, perfecto para días cálidos">Refreshing matcha green tea with cold milk, perfect for warm days</div>
+                        <div class="menu-item-size">16oz</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name" data-en="Iced Chai Latte" data-es="Chai Latte Helado">Iced Chai Latte</div>
+                            <div class="menu-item-price">₡3,000</div>
+                        </div>
+                        <div class="menu-item-description" data-en="Chilled spiced tea with milk, cool and invigorating" data-es="Té especiado frío con leche, fresco e vigorizante">Chilled spiced tea with milk, cool and invigorating</div>
+                        <div class="menu-item-size">16oz</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name" data-en="Chocolate Milk" data-es="Leche con Chocolate">Chocolate Milk</div>
+                            <div class="menu-item-price">₡2,200</div>
+                        </div>
+                        <div class="menu-item-description" data-en="Cold chocolate milk, creamy and satisfying" data-es="Leche con chocolate fría, cremosa y satisfactoria">Cold chocolate milk, creamy and satisfying</div>
+                        <div class="menu-item-size">16oz</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-name" data-en="Strawberry Flavored Milk" data-es="Leche Saborizada de Fresa">Strawberry Flavored Milk</div>
+                            <div class="menu-item-price">₡2,200</div>
+                        </div>
+                        <div class="menu-item-description" data-en="Sweet strawberry-flavored milk, refreshing and fruity" data-es="Leche saborizada de fresa, refrescante y frutal">Sweet strawberry-flavored milk, refreshing and fruity</div>
+                        <div class="menu-item-size">16oz</div>
+                    </div>
+                </div>
+            </div>
+            <div class="menu-category" data-aos="fade-right" data-aos-once="true" data-aos-delay="300">
+                <h3 data-en="Pastries & Treats" data-es="Pasteles y Delicias">Pastries & Treats</h3>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name">Croissant</div>
+                        <div class="menu-item-price">₡1,500</div>
+                    </div>
+                    <div class="menu-item-description" data-en="Buttery, flaky, baked fresh daily" data-es="Mantecoso, hojaldrado, horneado fresco diariamente">Buttery, flaky, baked fresh daily</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name" data-en="Almond Biscotti" data-es="Biscotti de Almendra">Almond Biscotti</div>
+                        <div class="menu-item-price">₡1,200</div>
+                    </div>
+                    <div class="menu-item-description" data-en="Perfect pairing with your espresso" data-es="Acompañamiento perfecto para tu espresso">Perfect pairing with your espresso</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-name" data-en="Chocolate Cake" data-es="Pastel de Chocolate">Chocolate Cake</div>
+                        <div class="menu-item-price">₡2,500</div>
+                    </div>
+                    <div class="menu-item-description" data-en="Rich, decadent, house-made" data-es="Rico, decadente, hecho en casa">Rich, decadent, house-made</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <h2 class="section-title" data-aos="fade-up" data-aos-once="true" data-en="Visit Us" data-es="Visítanos">Visit Us</h2>
+        <div class="contact-content">
+            <div class="contact-info" data-aos="fade-right" data-aos-once="true">
+                <h3 data-en="Get in Touch" data-es="Contáctanos">Get in Touch</h3>
+                <p>
+                    <strong data-en="Location:" data-es="Ubicación:">Location:</strong><br>
+                    Zuccaro Café<br>
+                    Costa Rica
+                </p>
+                <p>
+                    <strong data-en="Hours:" data-es="Horario:">Hours:</strong><br>
+                    <span data-en="Monday - Friday: 7:00 AM - 7:00 PM" data-es="Lunes - Viernes: 7:00 AM - 7:00 PM">Monday - Friday: 7:00 AM - 7:00 PM</span><br>
+                    <span data-en="Saturday - Sunday: 8:00 AM - 8:00 PM" data-es="Sábado - Domingo: 8:00 AM - 8:00 PM">Saturday - Sunday: 8:00 AM - 8:00 PM</span>
+                </p>
+                <p>
+                    <strong>Email:</strong><br>
+                    <a href="mailto:info@zuccarocafe.com">info@zuccarocafe.com</a>
+                </p>
+            </div>
+            <form class="contact-form" data-aos="fade-left" data-aos-once="true" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="name" data-en="Name" data-es="Nombre">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message" data-en="Message" data-es="Mensaje">Message</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <button type="submit" class="btn-submit" data-en="Send Message" data-es="Enviar Mensaje">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Zuccaro Café. <span data-en="All rights reserved." data-es="Todos los derechos reservados.">All rights reserved.</span></p>
+    </footer>
+
+    <script>
+        // Language switching functionality
+        let currentLanguage = 'en';
+
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update active button
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            
+            // Update all elements with data-en and data-es attributes
+            document.querySelectorAll('[data-en][data-es]').forEach(element => {
+                const text = element.getAttribute(`data-${lang}`);
+                if (text) {
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.placeholder = text;
+                    } else {
+                        element.textContent = text;
+                    }
+                }
+            });
+            
+            // Update navigation links
+            document.querySelectorAll('nav a[data-en][data-es]').forEach(link => {
+                const text = link.getAttribute(`data-${lang}`);
+                if (text) {
+                    link.textContent = text;
+                }
+            });
+            
+            // Update HTML lang attribute
+            document.documentElement.lang = lang;
+        }
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Parallax effect for hero content
+        if (window.innerWidth > 768) {
+            const heroContent = document.querySelector('.hero-content');
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const hero = document.querySelector('.hero');
+                if (hero && heroContent && scrolled < hero.offsetHeight) {
+                    const rate = scrolled * 0.3;
+                    heroContent.style.transform = `translateY(${rate}px)`;
+                    heroContent.style.opacity = 1 - (scrolled / hero.offsetHeight) * 0.5;
+                }
+            });
+        }
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Lightbox functionality
+        function openLightbox(imageSrc) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            lightboxImg.src = imageSrc;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox(event) {
+            if (event.target.id === 'lightbox' || event.target.classList.contains('lightbox-close')) {
+                const lightbox = document.getElementById('lightbox');
+                lightbox.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Close lightbox on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const lightbox = document.getElementById('lightbox');
+                if (lightbox.classList.contains('active')) {
+                    lightbox.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        });
+
+        // Form submission handler
+        function handleSubmit(event) {
+            event.preventDefault();
+            const message = currentLanguage === 'es' 
+                ? '¡Gracias por tu mensaje! Te responderemos pronto.' 
+                : 'Thank you for your message! We will get back to you soon.';
+            alert(message);
+            event.target.reset();
+        }
+
+    </script>
+    <!-- AOS JavaScript Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS (Animate On Scroll) library
+        AOS.init({
+            once: true,
+            duration: 800,
+            easing: 'ease-out',
+            offset: 100,
+            delay: 0,
+            disable: function() {
+                // Disable on mobile devices for better performance
+                return window.innerWidth < 768;
+            }
+        });
+    </script>
+</body>
+</html>
+
